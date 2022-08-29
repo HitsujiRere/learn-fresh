@@ -3,20 +3,16 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import * as $0 from "./routes/api/cat.ts";
-import * as $1 from "./routes/api/joke.ts";
-import * as $2 from "./routes/index.tsx";
+import * as $1 from "./routes/index.tsx";
 import * as $$0 from "./islands/CatImage.tsx";
-import * as $$1 from "./islands/Counter.tsx";
 
 const manifest = {
   routes: {
     "./routes/api/cat.ts": $0,
-    "./routes/api/joke.ts": $1,
-    "./routes/index.tsx": $2,
+    "./routes/index.tsx": $1,
   },
   islands: {
     "./islands/CatImage.tsx": $$0,
-    "./islands/Counter.tsx": $$1,
   },
   baseUrl: import.meta.url,
 };
