@@ -1,4 +1,4 @@
-import "https://deno.land/x/dotenv/load.ts";
+import "https://deno.land/x/dotenv@v3.2.0/load.ts";
 
 import { Pool } from "https://deno.land/x/postgres@v0.16.1/mod.ts";
 

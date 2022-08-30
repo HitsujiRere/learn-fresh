@@ -1,4 +1,4 @@
-import { HandlerContext, Status } from "$fresh/server.ts";
+import { HandlerContext } from "$fresh/server.ts";
 import { pool } from "utils/database.ts";
 
 export const handler = async (

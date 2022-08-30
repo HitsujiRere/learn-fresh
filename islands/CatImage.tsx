@@ -47,20 +47,22 @@ export default function CatImage() {
   return (
     <div class={tw`space-y-8`}>
       <div class={tw`space-y-4`}>
-        <Button
-          isLoading={isLoading}
-          disabled={isLoading}
-          onClick={updateCatImage}
-        >
-          きょうのにゃんこ🐱
-        </Button>
-        <Button
-          isLoading={isLoading}
-          disabled={isLoading}
-          onClick={likeCatImage}
-        >
-          好き！
-        </Button>
+        <div class={tw`space-x-4`}>
+          <Button
+            isLoading={isLoading}
+            disabled={isLoading}
+            onClick={updateCatImage}
+          >
+            きょうのにゃんこ🐱
+          </Button>
+          <Button
+            isLoading={isLoading}
+            disabled={isLoading}
+            onClick={likeCatImage}
+          >
+            好き！
+          </Button>
+        </div>
         {catImageUrl === ""
           ? <LoadingIcon />
           : <img src={catImageUrl} class={tw`w-full`} />}
