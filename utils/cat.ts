@@ -1,7 +1,5 @@
 import axiod from "https://deno.land/x/axiod@0.26.1/mod.ts";
 
-const ENDPOINT = "/api/cat";
-
 interface Cat {
   id: string;
   url: string;
@@ -9,7 +7,7 @@ interface Cat {
   height: number;
 }
 
-export async function get(): Promise<Cat> {
-  const res = await axiod.get(ENDPOINT);
+export async function getCat(): Promise<Cat> {
+  const res = await axiod.get("/api/cat");
   return res.data;
 }

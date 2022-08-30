@@ -1,46 +1,85 @@
 /** @jsx h */
 import { h } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { tw } from "@twind";
 
-import { get } from "apis/cat.ts";
+import { getCat } from "apis/cat.ts";
+import { likeCat } from "apis/likeCat.ts";
+import { getLikedCats } from "apis/likedCats.ts";
 import { Button } from "../components/Button.tsx";
-
-interface CounterProps {
-  start: number;
-}
+import { LoadingIcon } from "../components/LoadingIcon.tsx";
 
 export default function CatImage() {
   const [isLoading, setIsLoading] = useState(false);
 
-  const [catImageUrl, setCatImageUrl] = useState(
-    "https://cdn2.thecatapi.com/images/bpc.jpg",
-  );
+  const [catImageUrl, setCatImageUrl] = useState("");
+  const [likedCatsUrl, setLikedCatsUrl] = useState<string[]>([]);
 
-  const handleClick = async () => {
+  const updateCatImage = async () => {
     setIsLoading(true);
-
-    try {
-      const cat = await get();
-      setCatImageUrl(cat.url);
-    } catch (e) {
-      console.log(e);
-    }
-
+    const cat = await getCat();
+    setCatImageUrl(cat.url);
     setIsLoading(false);
   };
 
+  const updateLikedCatGallery = async () => {
+    setLikedCatsUrl([]);
+    const catsUrl = await getLikedCats();
+    setLikedCatsUrl(catsUrl);
+  };
+
+  const likeCatImage = async () => {
+    setIsLoading(true);
+    await likeCat(catImageUrl);
+    setLikedCatsUrl([...likedCatsUrl, catImageUrl]);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    (async () => {
+      setIsLoading(true);
+      await updateCatImage();
+      await updateLikedCatGallery();
+      setIsLoading(false);
+    })();
+  }, []);
+
   return (
-    <div>
-      <Button
-        isLoading={isLoading}
-        disabled={isLoading}
-        onClick={handleClick}
-      >
-        きょうのにゃんこ🐱
-      </Button>
-      <div class={tw`mt-8`}>
-        <img src={catImageUrl} class={tw`w-full`} />
+    <div class={tw`space-y-8`}>
+      <div class={tw`space-y-4`}>
+        <Button
+          isLoading={isLoading}
+          disabled={isLoading}
+          onClick={updateCatImage}
+        >
+          きょうのにゃんこ🐱
+        </Button>
+        <Button
+          isLoading={isLoading}
+          disabled={isLoading}
+          onClick={likeCatImage}
+        >
+          好き！
+        </Button>
+        {catImageUrl === ""
+          ? <LoadingIcon />
+          : <img src={catImageUrl} class={tw`w-full`} />}
+      </div>
+
+      <div class={tw`space-y-4`}>
+        <p>お気に入りにゃんこ🐱</p>
+        {likedCatsUrl.length === 0
+          ? <LoadingIcon />
+          : (
+            <div class={tw`grid grid-cols-3 gap-4`}>
+              {likedCatsUrl.map((url) => (
+                <img
+                  src={url}
+                  class={tw`w-full`}
+                />
+              ))}
+            </div>
+          )}
       </div>
     </div>
   );

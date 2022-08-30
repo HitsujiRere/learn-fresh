@@ -1,6 +1,7 @@
 /** @jsx h */
 import { h } from "preact";
 import { tw } from "@twind";
+
 import CatImage from "../islands/CatImage.tsx";
 
 export default function Home() {
